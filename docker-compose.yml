@@ -1,0 +1,18 @@
+services:
+  trivy:
+    build: .
+    image: devsecops-ex3-trivy-sca
+    volumes:
+      - ./target:/repo:ro
+      - ./reports:/reports
+      - trivy-cache:/root/.cache/trivy
+    command:
+      - fs
+      - --scanners=vuln
+      - --offline-scan
+      - --format=json
+      - --output=/reports/trivy-fs-report.json
+      - /repo
+
+volumes:
+  trivy-cache:
